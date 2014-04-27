@@ -1,35 +1,82 @@
 <div class="header">
   <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
   </ul>
   <h3 class="text-muted">ModuloPreguntas</h3>
 </div>
 
 <div class="jumbotron">
-  <h1>'Hola, 'Hola!</h1>
+  <h1>Añadir Pregunta</h1>
   <p class="lead">
     <img src="images/yeoman.png" alt="I'm Yeoman"><br>
     Bienvenidos al modulo preguntas.
   </p>
+  <div class="container">
+ 
+</div>
 </div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+ <form class="form-horizontal row" role="form">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pregunta">Pregunta</label> 
+      <div class="col-sm-10">
+        <input type="text" class="form-control" placeholder="Añadir pregunta" id="pregunta">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pregunta">Categoria</label>
+      <div class="col-sm-10">
+        <select class="form-control">
+          <option>Español A</option>
+          <option>Ingles A</option>
+          <option>Matematicas A</option>
+          <option>Biologia A</option>
+          <option>Sociales A</option>
+          <option>Español B</option>
+          <option>Ingles B</option>
+          <option>Matematicas B</option>
+          <option>Biologia B</option>
+          <option>Sociales B</option>
+          <option>Español C</option>
+          <option>Ingles C</option>
+          <option>Matematicas C</option>
+          <option>Biologia C</option>
+          <option>Sociales C</option>
+        </select>
+      </div>
+      </div>
+      <div class="row form-group">
+        <div class="input-group">
+          <span class="input-group-addon">A</span>
+          <input type="text" class="form-control col-sm-2" placeholder="Opcion A">
+        </div>
+        <label for="exampleInputFile col-lg-6">Examinar</label>
+        <input type="file" id="exampleInputFile">
+        <p class="help-block">Selecciona una imagen.</p>
+      </div><br>
+    <span class="form-group">
+      <input type="submit" class="btn btn-success" value="Guardar">
+    </span>
+  </form>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <td>Pregunta</td>
+      <td>Categoria</td>
+      <td>Respuestas</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pregunta</td>
+      <td>Categoria</td>
+      <td>Respuestas</td>
+    </tr>
+  </tbody>
+</table>
+
 
 <div class="footer">
-  <p>♥ from the Yeoman team and julo team</p>
+  <p>♥ from the Yeoman team & julo team</p>
 </div>
