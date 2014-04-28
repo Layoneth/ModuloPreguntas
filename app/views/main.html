@@ -19,11 +19,11 @@
     <div class="form-group">
       <label class="control-label col-sm-2" for="pregunta">Pregunta</label> 
       <div class="col-sm-10">
-        <input type="text" class="form-control" placeholder="Añadir pregunta" id="pregunta">
+        <input type="text" class="form-control" placeholder="Añadir pregunta" id="pregunta" name="pregunta" ng-model="pregunta">
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="pregunta">Categoria</label>
+      <label class="control-label col-sm-2" for="pregunta" name="categoria" ng-model="categoria">Categoria</label>
       <div class="col-sm-10">
         <select class="form-control">
           <option>Español A</option>
@@ -48,7 +48,7 @@
       <div class="form-group col-lg-6">
         <div class="input-group">
           <span class="input-group-addon">A</span>
-          <input type="text" class="form-control" placeholder="Opcion A">
+          <input type="text" class="form-control" placeholder="Opcion A" name="opcionA" ng-model="opcionA">
         </div>
         <label for="exampleInputFile col-lg-6">Examinar</label>
         <input type="file" id="exampleInputFile">
@@ -60,7 +60,7 @@
       <div class="form-group col-sm-6">
         <div class="input-group">
           <span class="input-group-addon">B</span>
-          <input type="text" class="form-control" placeholder="Opcion B">
+          <input type="text" class="form-control" placeholder="Opcion B" name="opcionB" ng-model="opcionB">
         </div>
         <label for="exampleInputFile col-lg-6">Examinar</label>
         <input type="file" id="exampleInputFile">
@@ -72,7 +72,7 @@
       <div class="form-group col-sm-6">
         <div class="input-group">
           <span class="input-group-addon">C</span>
-          <input type="text" class="form-control" placeholder="Opcion C">
+          <input type="text" class="form-control" placeholder="Opcion C" name="opcionC" ng-model="opcionC">
         </div>
         <label for="exampleInputFile col-lg-6">Examinar</label>
         <input type="file" id="exampleInputFile">
@@ -84,7 +84,7 @@
       <div class="form-group col-sm-6">
         <div class="input-group">
           <span class="input-group-addon">D</span>
-          <input type="text" class="form-control" placeholder="Opcion D">
+          <input type="text" class="form-control" placeholder="Opcion D" name="opcionD" ng-model="opcionD">
         </div>
         <label for="exampleInputFile col-lg-6">Examinar</label>
         <input type="file" id="exampleInputFile">
@@ -93,7 +93,7 @@
       <!--Se cierra la opcion D-->
 
     <span class="form-group">
-      <input type="submit" class="btn btn-success" value="Guardar">
+      <input ng-click="CrearPregunta()" type="submit" class="btn btn-success" value="Guardar">
     </span>
   </form>
 
@@ -101,6 +101,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
+      <td>Codigo</td>
       <td>Pregunta</td>
       <td>Categoria</td>
       <td>Respuestas1</td>
@@ -111,22 +112,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Pregunta</td>
-      <td>Categoria</td>
-      <td>Respuestas1</td>
-      <td>Respuestas2</td>
-      <td>Respuestas3</td>
-      <td>Respuestas4</td>
-      <td><a href="#">Editar</a> - <a href="#">Eliminar</a></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <tr ng-repeat="(key, value) in QuestionSave">
+      <td>{{ key + 1 }}</td>
+      <td>{{value.pregunta}}</td>
+      <td>{{value.categoria}}</td>
+      <td>{{value.opcionA}}</td>
+      <td>{{value.opcionB}}</td>
+      <td>{{value.opcionC}}</td>
+      <td>{{value.opcionD}}</td>
       <td><a href="#">Editar</a> - <a href="#">Eliminar</a></td>
     </tr>
   </tbody>
