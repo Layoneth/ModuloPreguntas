@@ -1,4 +1,4 @@
-// Generated on 2014-04-27 using generator-angular 0.7.1
+// Generated on 2014-05-05 using generator-angular 0.7.1
 'use strict';
 
 // # Globbing
@@ -27,20 +27,21 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['newer:jshint:all'],
-        options: {
-          livereload: true
-        }
+      coffee: {
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
+        tasks: ['newer:coffee:dist']
       },
-      jsTest: {
-        files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
+      coffeeTest: {
+        files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
+        tasks: ['newer:coffee:test', 'karma']
       },
-      styles: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+      compass: {
+        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        tasks: ['compass:server', 'autoprefixer']
+      },
+      jade: {
+        files: ['<%= yeoman.app %>/views/{,*/}*.jade'],
+        tasks: ['jade']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -50,8 +51,9 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
+          '.tmp/views/{,*/}*.html',
           '.tmp/styles/{,*/}*.css',
+          '.tmp/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
@@ -98,15 +100,8 @@ module.exports = function (grunt) {
         reporter: require('jshint-stylish')
       },
       all: [
-        'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
-      ],
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/spec/{,*/}*.js']
-      }
+        'Gruntfile.js'
+      ]
     },
 
     // Empties folders to start fresh
@@ -148,8 +143,61 @@ module.exports = function (grunt) {
     },
 
 
+    // Compiles CoffeeScript to JavaScript
+    coffee: {
+      options: {
+        sourceMap: true,
+        sourceRoot: ''
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/scripts',
+          src: '{,*/}*.coffee',
+          dest: '.tmp/scripts',
+          ext: '.js'
+        }]
+      },
+      test: {
+        files: [{
+          expand: true,
+          cwd: 'test/spec',
+          src: '{,*/}*.coffee',
+          dest: '.tmp/spec',
+          ext: '.js'
+        }]
+      }
+    },
 
 
+    // Compiles Sass to CSS and generates necessary files if requested
+    compass: {
+      options: {
+        sassDir: '<%= yeoman.app %>/styles',
+        cssDir: '.tmp/styles',
+        generatedImagesDir: '.tmp/images/generated',
+        imagesDir: '<%= yeoman.app %>/images',
+        javascriptsDir: '<%= yeoman.app %>/scripts',
+        fontsDir: '<%= yeoman.app %>/styles/fonts',
+        importPath: '<%= yeoman.app %>/bower_components',
+        httpImagesPath: '/images',
+        httpGeneratedImagesPath: '/images/generated',
+        httpFontsPath: '/styles/fonts',
+        relativeAssets: false,
+        assetCacheBuster: false,
+        raw: 'Sass::Script::Number.precision = 10\n'
+      },
+      dist: {
+        options: {
+          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+        }
+      },
+      server: {
+        options: {
+          debugInfo: true
+        }
+      }
+    },
 
     // Renames files for browser caching purposes
     rev: {
@@ -242,6 +290,37 @@ module.exports = function (grunt) {
       }
     },
 
+
+
+    // Compilar archivos Jade
+    jade: {
+      // Move the compiled .html files from .tmp/ to dist/
+      dist: {
+        files: [{
+            expand: true,
+            cwd: '.tmp/',
+            src: ['views/{,*/}*.html'], // Actual pattern(s) to match.
+            dest: '<%= yeoman.dist %>'
+        }]
+      },
+      // Compile .jade files in app/views/ to .tmp/
+      compile: {
+        options: {
+            pretty: true,
+            data: {
+                debug: false
+            }
+        },
+        files: [{
+            expand: true, // Enable dynamic expansion.
+            cwd: '<%= yeoman.app %>/views/', // Src matches are relative to this path.
+            src: '{,*/}*.jade', // Actual pattern(s) to match.
+            dest: '<%= yeoman.app %>/views', // Destination path prefix.
+            ext: '.tpl.html' // Dest filepaths will have this extension.
+        }]
+      }
+    },
+
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -277,13 +356,19 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'copy:styles'
+        'coffee:dist',
+        'compass:server',
+        'jade'
       ],
       test: [
-        'copy:styles'
+        'coffee',
+        'compass',
+        'jade'
       ],
       dist: [
-        'copy:styles',
+        'coffee',
+        'compass:dist',
+        'jade',
         'imagemin',
         'svgmin'
       ]
@@ -353,6 +438,7 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
+ 
   grunt.registerTask('build', [
     'clean:dist',
     'bower-install',
